@@ -1,0 +1,1130 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StudyVault - JEE/NEET Preparation Hub</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Outfit', 'sans-serif'],
+                        display: ['Space Grotesk', 'sans-serif'],
+                    },
+                    colors: {
+                        dark: {
+                            900: '#0a0a0f',
+                            800: '#12121a',
+                            700: '#1a1a2e',
+                            600: '#252542',
+                            500: '#2d2d4a',
+                        },
+                        accent: {
+                            cyan: '#00d4ff',
+                            purple: '#a855f7',
+                            pink: '#ec4899',
+                            green: '#10b981',
+                            orange: '#f59e0b'
+                        }
+                    },
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'gradient-x': 'gradient-x 15s ease infinite',
+                        'spin-slow': 'spin 8s linear infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-20px)' },
+                        },
+                        'gradient-x': {
+                            '0%, 100%': { 'background-position': '0% 50%' },
+                            '50%': { 'background-position': '100% 50%' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #0a0a0f;
+            color: #e2e8f0;
+        }
+        .glass-panel {
+            background: rgba(26, 26, 46, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .neon-glow {
+            box-shadow: 0 0 20px rgba(0, 212, 255, 0.3);
+        }
+        .neon-text {
+            text-shadow: 0 0 10px rgba(0, 212, 255, 0.5);
+        }
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 212, 255, 0.2);
+        }
+        .gradient-text {
+            background: linear-gradient(135deg, #00d4ff 0%, #a855f7 50%, #ec4899 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .grid-pattern {
+            background-image: radial-gradient(circle at 1px 1px, rgba(255,255,255,0.05) 1px, transparent 0);
+            background-size: 40px 40px;
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 8px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #1a1a2e;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #2d2d4a;
+            border-radius: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #00d4ff;
+        }
+        .blob {
+            position: absolute;
+            filter: blur(80px);
+            opacity: 0.4;
+            animation: float 10s ease-in-out infinite;
+        }
+        .file-drop-zone {
+            border: 2px dashed rgba(0, 212, 255, 0.3);
+            transition: all 0.3s ease;
+        }
+        .file-drop-zone.dragover {
+            border-color: #00d4ff;
+            background: rgba(0, 212, 255, 0.1);
+        }
+    </style>
+</head>
+<body class="font-sans antialiased overflow-x-hidden">
+
+    <!-- Background Effects -->
+    <div class="fixed inset-0 z-0 pointer-events-none">
+        <div class="blob bg-accent-cyan w-96 h-96 rounded-full top-0 left-0 -translate-x-1/2 -translate-y-1/2"></div>
+        <div class="blob bg-accent-purple w-96 h-96 rounded-full bottom-0 right-0 translate-x-1/2 translate-y-1/2 animation-delay-2000"></div>
+        <div class="blob bg-accent-pink w-64 h-64 rounded-full top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 animation-delay-4000"></div>
+        <div class="absolute inset-0 grid-pattern"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 glass-panel border-b border-white/10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center space-x-2 cursor-pointer" onclick="showSection('home')">
+                    <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-accent-cyan to-accent-purple flex items-center justify-center">
+                        <i class="fas fa-graduation-cap text-white text-xl"></i>
+                    </div>
+                    <span class="text-2xl font-display font-bold gradient-text">StudyVault</span>
+                </div>
+                
+                <div class="hidden md:flex space-x-8">
+                    <button onclick="showSection('home')" class="nav-link text-gray-300 hover:text-accent-cyan transition-colors font-medium">Home</button>
+                    <button onclick="showSection('courses')" class="nav-link text-gray-300 hover:text-accent-cyan transition-colors font-medium">Courses</button>
+                    <button onclick="showSection('materials')" class="nav-link text-gray-300 hover:text-accent-cyan transition-colors font-medium">Study Materials</button>
+                    <button onclick="showSection('upload')" class="nav-link text-gray-300 hover:text-accent-cyan transition-colors font-medium">Upload</button>
+                    <button onclick="showSection('community')" class="nav-link text-gray-300 hover:text-accent-cyan transition-colors font-medium">Community</button>
+                </div>
+
+                <div class="flex items-center space-x-4">
+                    <button onclick="toggleSearch()" class="p-2 rounded-lg hover:bg-white/10 transition-colors">
+                        <i class="fas fa-search text-gray-300"></i>
+                    </button>
+                    <button onclick="showSection('profile')" class="w-10 h-10 rounded-full bg-gradient-to-r from-accent-purple to-accent-pink flex items-center justify-center hover:scale-110 transition-transform">
+                        <i class="fas fa-user text-white"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Search Overlay -->
+    <div id="searchOverlay" class="fixed inset-0 z-50 bg-black/90 backdrop-blur-xl hidden flex items-center justify-center p-4">
+        <div class="w-full max-w-3xl">
+            <div class="relative">
+                <input type="text" id="globalSearch" placeholder="Search courses, materials, topics..." 
+                    class="w-full bg-dark-700 border border-white/20 rounded-2xl px-6 py-4 text-xl text-white placeholder-gray-500 focus:outline-none focus:border-accent-cyan focus:ring-2 focus:ring-accent-cyan/50"
+                    onkeyup="handleSearch(event)">
+                <button onclick="toggleSearch()" class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-white">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            <div id="searchResults" class="mt-6 space-y-4 max-h-96 overflow-y-auto custom-scrollbar"></div>
+        </div>
+    </div>
+
+    <!-- Main Content Container -->
+    <main class="relative z-10 pt-20">
+        
+        <!-- Home Section -->
+        <section id="home" class="section min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8 py-20">
+            <div class="max-w-7xl mx-auto w-full">
+                <div class="grid lg:grid-cols-2 gap-12 items-center">
+                    <div class="space-y-8 animate-fade-in">
+                        <div class="inline-flex items-center space-x-2 px-4 py-2 rounded-full bg-accent-cyan/10 border border-accent-cyan/30 text-accent-cyan text-sm font-medium">
+                            <span class="w-2 h-2 rounded-full bg-accent-cyan animate-pulse"></span>
+                            <span>Trusted by 50,000+ JEE/NEET Aspirants</span>
+                        </div>
+                        <h1 class="text-5xl md:text-7xl font-display font-bold leading-tight">
+                            Master Your <br>
+                            <span class="gradient-text">Competitive Exams</span><br>
+                            With Confidence
+                        </h1>
+                        <p class="text-xl text-gray-400 max-w-lg">
+                            Access premium study materials, video courses, and practice tests tailored for JEE Main, JEE Advanced, and NEET preparation.
+                        </p>
+                        <div class="flex flex-wrap gap-4">
+                            <button onclick="showSection('courses')" class="px-8 py-4 rounded-xl bg-gradient-to-r from-accent-cyan to-accent-purple text-white font-semibold hover:shadow-lg hover:shadow-accent-cyan/50 transition-all transform hover:-translate-y-1">
+                                Explore Courses
+                            </button>
+                            <button onclick="showSection('upload')" class="px-8 py-4 rounded-xl border border-white/20 text-white font-semibold hover:bg-white/10 transition-all">
+                                Upload Material
+                            </button>
+                        </div>
+                        
+                        <div class="flex items-center space-x-8 pt-8 border-t border-white/10">
+                            <div>
+                                <div class="text-3xl font-bold text-white">500+</div>
+                                <div class="text-sm text-gray-500">Video Lectures</div>
+                            </div>
+                            <div>
+                                <div class="text-3xl font-bold text-white">10k+</div>
+                                <div class="text-sm text-gray-500">Study Materials</div>
+                            </div>
+                            <div>
+                                <div class="text-3xl font-bold text-white">98%</div>
+                                <div class="text-sm text-gray-500">Success Rate</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="relative">
+                        <div class="relative z-10 grid grid-cols-2 gap-4">
+                            <div class="space-y-4 mt-8">
+                                <div class="glass-panel rounded-2xl p-6 card-hover">
+                                    <div class="w-12 h-12 rounded-lg bg-accent-cyan/20 flex items-center justify-center mb-4">
+                                        <i class="fas fa-atom text-accent-cyan text-2xl"></i>
+                                    </div>
+                                    <h3 class="font-bold text-lg mb-2">Physics Mastery</h3>
+                                    <p class="text-sm text-gray-400">Mechanics, Electrodynamics & Modern Physics</p>
+                                </div>
+                                <div class="glass-panel rounded-2xl p-6 card-hover">
+                                    <div class="w-12 h-12 rounded-lg bg-accent-pink/20 flex items-center justify-center mb-4">
+                                        <i class="fas fa-flask text-accent-pink text-2xl"></i>
+                                    </div>
+                                    <h3 class="font-bold text-lg mb-2">Chemistry Pro</h3>
+                                    <p class="text-sm text-gray-400">Organic, Inorganic & Physical Chemistry</p>
+                                </div>
+                            </div>
+                            <div class="space-y-4">
+                                <div class="glass-panel rounded-2xl p-6 card-hover">
+                                    <div class="w-12 h-12 rounded-lg bg-accent-purple/20 flex items-center justify-center mb-4">
+                                        <i class="fas fa-calculator text-accent-purple text-2xl"></i>
+                                    </div>
+                                    <h3 class="font-bold text-lg mb-2">Math Excellence</h3>
+                                    <p class="text-sm text-gray-400">Calculus, Algebra & Coordinate Geometry</p>
+                                </div>
+                                <div class="glass-panel rounded-2xl p-6 card-hover">
+                                    <div class="w-12 h-12 rounded-lg bg-accent-green/20 flex items-center justify-center mb-4">
+                                        <i class="fas fa-dna text-accent-green text-2xl"></i>
+                                    </div>
+                                    <h3 class="font-bold text-lg mb-2">Biology Focus</h3>
+                                    <p class="text-sm text-gray-400">Zoology, Botany & Human Physiology</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Courses Section -->
+        <section id="courses" class="section hidden min-h-screen px-4 sm:px-6 lg:px-8 py-20">
+            <div class="max-w-7xl mx-auto">
+                <div class="text-center mb-12">
+                    <h2 class="text-4xl md:text-5xl font-display font-bold mb-4">Curated <span class="gradient-text">Courses</span></h2>
+                    <p class="text-gray-400 text-lg">Structured learning paths for 11th, 12th, and Dropper students</p>
+                </div>
+
+                <!-- Filter Tabs -->
+                <div class="flex flex-wrap justify-center gap-4 mb-12">
+                    <button onclick="filterCourses('all')" class="filter-btn active px-6 py-2 rounded-full border border-accent-cyan bg-accent-cyan/20 text-accent-cyan font-medium transition-all">All Courses</button>
+                    <button onclick="filterCourses('11')" class="filter-btn px-6 py-2 rounded-full border border-white/20 hover:border-accent-cyan hover:text-accent-cyan transition-all">Class 11</button>
+                    <button onclick="filterCourses('12')" class="filter-btn px-6 py-2 rounded-full border border-white/20 hover:border-accent-cyan hover:text-accent-cyan transition-all">Class 12</button>
+                    <button onclick="filterCourses('dropper')" class="filter-btn px-6 py-2 rounded-full border border-white/20 hover:border-accent-cyan hover:text-accent-cyan transition-all">Dropper</button>
+                    <button onclick="filterCourses('jee')" class="filter-btn px-6 py-2 rounded-full border border-white/20 hover:border-accent-cyan hover:text-accent-cyan transition-all">JEE Specific</button>
+                    <button onclick="filterCourses('neet')" class="filter-btn px-6 py-2 rounded-full border border-white/20 hover:border-accent-cyan hover:text-accent-cyan transition-all">NEET Specific</button>
+                </div>
+
+                <!-- Course Grid -->
+                <div id="courseGrid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Courses injected via JS -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Study Materials Section -->
+        <section id="materials" class="section hidden min-h-screen px-4 sm:px-6 lg:px-8 py-20">
+            <div class="max-w-7xl mx-auto">
+                <div class="flex flex-col md:flex-row justify-between items-center mb-12">
+                    <div>
+                        <h2 class="text-4xl md:text-5xl font-display font-bold mb-2">Study <span class="gradient-text">Materials</span></h2>
+                        <p class="text-gray-400">Notes, DPPs, Previous Year Papers & More</p>
+                    </div>
+                    <div class="flex gap-4 mt-4 md:mt-0">
+                        <select id="materialFilter" onchange="filterMaterials()" class="bg-dark-700 border border-white/20 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-accent-cyan">
+                            <option value="all">All Types</option>
+                            <option value="notes">Chapter Notes</option>
+                            <option value="dpp">Daily Practice Problems</option>
+                            <option value="pyq">Previous Year Questions</option>
+                            <option value="formula">Formula Sheets</option>
+                            <option value="mock">Mock Tests</option>
+                        </select>
+                        <select id="subjectFilter" onchange="filterMaterials()" class="bg-dark-700 border border-white/20 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-accent-cyan">
+                            <option value="all">All Subjects</option>
+                            <option value="physics">Physics</option>
+                            <option value="chemistry">Chemistry</option>
+                            <option value="maths">Mathematics</option>
+                            <option value="biology">Biology</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div id="materialsGrid" class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <!-- Materials injected via JS -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Upload Section -->
+        <section id="upload" class="section hidden min-h-screen px-4 sm:px-6 lg:px-8 py-20">
+            <div class="max-w-4xl mx-auto">
+                <div class="text-center mb-12">
+                    <h2 class="text-4xl md:text-5xl font-display font-bold mb-4">Upload <span class="gradient-text">Resources</span></h2>
+                    <p class="text-gray-400">Share your notes and help the community grow</p>
+                </div>
+
+                <div class="glass-panel rounded-3xl p-8 md:p-12">
+                    <form id="uploadForm" onsubmit="handleUpload(event)" class="space-y-6">
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-300 mb-2">Title</label>
+                                <input type="text" id="uploadTitle" required class="w-full bg-dark-800 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-accent-cyan focus:ring-2 focus:ring-accent-cyan/20 transition-all" placeholder="e.g., Organic Chemistry Notes">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-300 mb-2">Subject</label>
+                                <select id="uploadSubject" required class="w-full bg-dark-800 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-accent-cyan">
+                                    <option value="physics">Physics</option>
+                                    <option value="chemistry">Chemistry</option>
+                                    <option value="maths">Mathematics</option>
+                                    <option value="biology">Biology</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-300 mb-2">Class/Exam</label>
+                                <select id="uploadClass" class="w-full bg-dark-800 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-accent-cyan">
+                                    <option value="11">Class 11</option>
+                                    <option value="12">Class 12</option>
+                                    <option value="dropper">Dropper</option>
+                                    <option value="jee">JEE Advanced</option>
+                                    <option value="neet">NEET</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-300 mb-2">Material Type</label>
+                                <select id="uploadType" class="w-full bg-dark-800 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-accent-cyan">
+                                    <option value="notes">Chapter Notes</option>
+                                    <option value="dpp">Practice Problems</option>
+                                    <option value="pyq">Previous Year Questions</option>
+                                    <option value="formula">Formula Sheet</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-gray-300 mb-2">Description</label>
+                            <textarea id="uploadDesc" rows="3" class="w-full bg-dark-800 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-accent-cyan resize-none" placeholder="Brief description of the content..."></textarea>
+                        </div>
+
+                        <div id="dropZone" class="file-drop-zone rounded-2xl p-12 text-center cursor-pointer relative overflow-hidden group">
+                            <input type="file" id="fileInput" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer" multiple onchange="handleFileSelect(event)" ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)" ondrop="handleDrop(event)">
+                            <div class="space-y-4 pointer-events-none">
+                                <div class="w-20 h-20 mx-auto rounded-full bg-accent-cyan/10 flex items-center justify-center group-hover:scale-110 transition-transform">
+                                    <i class="fas fa-cloud-upload-alt text-4xl text-accent-cyan"></i>
+                                </div>
+                                <div>
+                                    <p class="text-lg font-medium text-white">Drop files here or click to upload</p>
+                                    <p class="text-sm text-gray-500 mt-2">Support PDF, DOC, PPT, Images up to 50MB</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="fileList" class="space-y-2 hidden">
+                            <!-- Selected files shown here -->
+                        </div>
+
+                        <button type="submit" class="w-full py-4 rounded-xl bg-gradient-to-r from-accent-cyan to-accent-purple text-white font-bold text-lg hover:shadow-lg hover:shadow-accent-cyan/50 transition-all transform hover:-translate-y-1 flex items-center justify-center space-x-2">
+                            <i class="fas fa-upload"></i>
+                            <span>Upload Material</span>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <!-- Community Section -->
+        <section id="community" class="section hidden min-h-screen px-4 sm:px-6 lg:px-8 py-20">
+            <div class="max-w-7xl mx-auto">
+                <div class="text-center mb-12">
+                    <h2 class="text-4xl md:text-5xl font-display font-bold mb-4">Student <span class="gradient-text">Community</span></h2>
+                    <p class="text-gray-400">Discuss doubts, share strategies, and collaborate</p>
+                </div>
+
+                <div class="grid lg:grid-cols-3 gap-8">
+                    <!-- Discussion Feed -->
+                    <div class="lg:col-span-2 space-y-6">
+                        <div class="glass-panel rounded-2xl p-6">
+                            <div class="flex space-x-4">
+                                <div class="w-12 h-12 rounded-full bg-gradient-to-r from-accent-cyan to-accent-purple flex items-center justify-center flex-shrink-0">
+                                    <i class="fas fa-user text-white"></i>
+                                </div>
+                                <div class="flex-1">
+                                    <textarea id="postContent" rows="3" class="w-full bg-dark-800 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-accent-cyan resize-none" placeholder="Share your doubt or achievement..."></textarea>
+                                    <div class="flex justify-between items-center mt-4">
+                                        <div class="flex space-x-2">
+                                            <button class="p-2 rounded-lg hover:bg-white/10 text-gray-400 hover:text-accent-cyan transition-colors">
+                                                <i class="fas fa-image"></i>
+                                            </button>
+                                            <button class="p-2 rounded-lg hover:bg-white/10 text-gray-400 hover:text-accent-cyan transition-colors">
+                                                <i class="fas fa-poll"></i>
+                                            </button>
+                                        </div>
+                                        <button onclick="createPost()" class="px-6 py-2 rounded-lg bg-accent-cyan text-dark-900 font-semibold hover:bg-accent-cyan/90 transition-colors">Post</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="postsFeed" class="space-y-6">
+                            <!-- Posts injected via JS -->
+                        </div>
+                    </div>
+
+                    <!-- Sidebar -->
+                    <div class="space-y-6">
+                        <div class="glass-panel rounded-2xl p-6">
+                            <h3 class="font-bold text-lg mb-4 flex items-center">
+                                <i class="fas fa-fire text-accent-orange mr-2"></i>
+                                Trending Topics
+                            </h3>
+                            <div class="space-y-3">
+                                <div class="flex items-center justify-between p-3 rounded-lg bg-dark-800/50 hover:bg-dark-800 cursor-pointer transition-colors">
+                                    <span class="text-sm">#JEEMain2024</span>
+                                    <span class="text-xs text-gray-500">2.4k posts</span>
+                                </div>
+                                <div class="flex items-center justify-between p-3 rounded-lg bg-dark-800/50 hover:bg-dark-800 cursor-pointer transition-colors">
+                                    <span class="text-sm">#OrganicChemistry</span>
+                                    <span class="text-xs text-gray-500">1.8k posts</span>
+                                </div>
+                                <div class="flex items-center justify-between p-3 rounded-lg bg-dark-800/50 hover:bg-dark-800 cursor-pointer transition-colors">
+                                    <span class="text-sm">#PhysicsNumericals</span>
+                                    <span class="text-xs text-gray-500">1.2k posts</span>
+                                </div>
+                                <div class="flex items-center justify-between p-3 rounded-lg bg-dark-800/50 hover:bg-dark-800 cursor-pointer transition-colors">
+                                    <span class="text-sm">#NEETBiology</span>
+                                    <span class="text-xs text-gray-500">956 posts</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="glass-panel rounded-2xl p-6">
+                            <h3 class="font-bold text-lg mb-4">Top Contributors</h3>
+                            <div class="space-y-4">
+                                <div class="flex items-center space-x-3">
+                                    <div class="w-10 h-10 rounded-full bg-accent-purple flex items-center justify-center text-white font-bold">A</div>
+                                    <div class="flex-1">
+                                        <div class="font-medium">Amit Kumar</div>
+                                        <div class="text-xs text-accent-cyan">Rank 1 • 450 pts</div>
+                                    </div>
+                                </div>
+                                <div class="flex items-center space-x-3">
+                                    <div class="w-10 h-10 rounded-full bg-accent-pink flex items-center justify-center text-white font-bold">S</div>
+                                    <div class="flex-1">
+                                        <div class="font-medium">Sarah Jain</div>
+                                        <div class="text-xs text-accent-cyan">Rank 2 • 380 pts</div>
+                                    </div>
+                                </div>
+                                <div class="flex items-center space-x-3">
+                                    <div class="w-10 h-10 rounded-full bg-accent-green flex items-center justify-center text-white font-bold">R</div>
+                                    <div class="flex-1">
+                                        <div class="font-medium">Rahul Sharma</div>
+                                        <div class="text-xs text-accent-cyan">Rank 3 • 320 pts</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Profile Section -->
+        <section id="profile" class="section hidden min-h-screen px-4 sm:px-6 lg:px-8 py-20">
+            <div class="max-w-5xl mx-auto">
+                <div class="glass-panel rounded-3xl overflow-hidden">
+                    <div class="h-48 bg-gradient-to-r from-accent-cyan via-accent-purple to-accent-pink relative">
+                        <div class="absolute inset-0 bg-black/20"></div>
+                    </div>
+                    <div class="px-8 pb-8">
+                        <div class="relative flex flex-col md:flex-row items-end md:items-center -mt-16 mb-8">
+                            <div class="w-32 h-32 rounded-2xl bg-dark-800 border-4 border-dark-900 flex items-center justify-center text-4xl font-bold text-white shadow-2xl">
+                                JD
+                            </div>
+                            <div class="mt-4 md:mt-0 md:ml-6 flex-1">
+                                <h2 class="text-3xl font-bold text-white">John Doe</h2>
+                                <p class="text-gray-400">JEE 2024 Aspirant • Class 12</p>
+                            </div>
+                            <div class="mt-4 md:mt-0 flex space-x-3">
+                                <button class="px-6 py-2 rounded-lg border border-white/20 hover:bg-white/10 transition-colors">Edit Profile</button>
+                                <button class="px-6 py-2 rounded-lg bg-accent-cyan text-dark-900 font-semibold hover:bg-accent-cyan/90 transition-colors">My Uploads</button>
+                            </div>
+                        </div>
+
+                        <div class="grid md:grid-cols-3 gap-6 mb-8">
+                            <div class="bg-dark-800/50 rounded-2xl p-6 text-center">
+                                <div class="text-3xl font-bold text-accent-cyan mb-1">24</div>
+                                <div class="text-sm text-gray-400">Uploads</div>
+                            </div>
+                            <div class="bg-dark-800/50 rounded-2xl p-6 text-center">
+                                <div class="text-3xl font-bold text-accent-purple mb-1">1.2k</div>
+                                <div class="text-sm text-gray-400">Downloads</div>
+                            </div>
+                            <div class="bg-dark-800/50 rounded-2xl p-6 text-center">
+                                <div class="text-3xl font-bold text-accent-pink mb-1">450</div>
+                                <div class="text-sm text-gray-400">Reputation</div>
+                            </div>
+                        </div>
+
+                        <div class="space-y-6">
+                            <h3 class="text-xl font-bold">Recent Activity</h3>
+                            <div class="space-y-4">
+                                <div class="flex items-center space-x-4 p-4 rounded-xl bg-dark-800/30 border border-white/5">
+                                    <div class="w-10 h-10 rounded-full bg-accent-cyan/20 flex items-center justify-center text-accent-cyan">
+                                        <i class="fas fa-upload"></i>
+                                    </div>
+                                    <div class="flex-1">
+                                        <div class="font-medium">Uploaded Physics Formula Sheet</div>
+                                        <div class="text-sm text-gray-500">2 hours ago</div>
+                                    </div>
+                                    <div class="text-sm text-accent-cyan">+20 pts</div>
+                                </div>
+                                <div class="flex items-center space-x-4 p-4 rounded-xl bg-dark-800/30 border border-white/5">
+                                    <div class="w-10 h-10 rounded-full bg-accent-green/20 flex items-center justify-center text-accent-green">
+                                        <i class="fas fa-check-circle"></i>
+                                    </div>
+                                    <div class="flex-1">
+                                        <div class="font-medium">Completed Organic Chemistry Course</div>
+                                        <div class="text-sm text-gray-500">Yesterday</div>
+                                    </div>
+                                    <div class="text-sm text-accent-green">+50 pts</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="fixed bottom-8 right-8 transform translate-y-20 opacity-0 transition-all duration-300 z-50">
+        <div class="glass-panel rounded-xl px-6 py-4 flex items-center space-x-3 border-l-4 border-accent-cyan">
+            <i class="fas fa-check-circle text-accent-cyan text-xl"></i>
+            <span id="toastMessage" class="font-medium">Operation successful!</span>
+        </div>
+    </div>
+
+    <script>
+        // Data Store
+        const courses = [
+            {
+                id: 1,
+                title: "Complete Physics for JEE",
+                instructor: "Dr. HC Verma",
+                category: ["11", "12", "jee"],
+                subject: "physics",
+                duration: "120 hours",
+                students: 15420,
+                rating: 4.9,
+                image: "physics",
+                color: "cyan",
+                progress: 0
+            },
+            {
+                id: 2,
+                title: "Organic Chemistry Mastery",
+                instructor: "Prof. MS Chauhan",
+                category: ["12", "jee", "neet"],
+                subject: "chemistry",
+                duration: "80 hours",
+                students: 12300,
+                rating: 4.8,
+                image: "chemistry",
+                color: "pink",
+                progress: 35
+            },
+            {
+                id: 3,
+                title: "Mathematics for JEE Advanced",
+                instructor: "Amit Agrawal",
+                category: ["11", "12", "jee"],
+                subject: "maths",
+                duration: "150 hours",
+                students: 18900,
+                rating: 4.9,
+                image: "maths",
+                color: "purple",
+                progress: 0
+            },
+            {
+                id: 4,
+                title: "NEET Biology Complete",
+                instructor: "Dr. Arora",
+                category: ["11", "12", "neet"],
+                subject: "biology",
+                duration: "200 hours",
+                students: 22100,
+                rating: 4.7,
+                image: "biology",
+                color: "green",
+                progress: 60
+            },
+            {
+                id: 5,
+                title: "Physical Chemistry Numericals",
+                instructor: "Narendra Awasthi",
+                category: ["11", "12", "jee"],
+                subject: "chemistry",
+                duration: "60 hours",
+                students: 9800,
+                rating: 4.8,
+                image: "chemistry",
+                color: "pink",
+                progress: 0
+            },
+            {
+                id: 6,
+                title: "Dropper's Complete Package",
+                instructor: "Allen Faculty",
+                category: ["dropper", "jee", "neet"],
+                subject: "all",
+                duration: "400 hours",
+                students: 30000,
+                rating: 4.9,
+                image: "all",
+                color: "orange",
+                progress: 15
+            }
+        ];
+
+        const materials = [
+            { id: 1, title: "Rotational Motion Notes", subject: "physics", type: "notes", size: "2.4 MB", downloads: 1200, date: "2024-01-15" },
+            { id: 2, title: "Organic Chemistry DPP-12", subject: "chemistry", type: "dpp", size: "1.8 MB", downloads: 890, date: "2024-01-14" },
+            { id: 3, title: "JEE Main 2023 Paper", subject: "maths", type: "pyq", size: "5.2 MB", downloads: 3400, date: "2024-01-13" },
+            { id: 4, title: "Human Physiology Summary", subject: "biology", type: "notes", size: "3.1 MB", downloads: 1500, date: "2024-01-12" },
+            { id: 5, title: "Integration Formulas", subject: "maths", type: "formula", size: "0.5 MB", downloads: 2100, date: "2024-01-11" },
+            { id: 6, title: "Thermodynamics DPP", subject: "physics", type: "dpp", size: "2.0 MB", downloads: 980, date: "2024-01-10" },
+            { id: 7, title: "NEET 2023 Solutions", subject: "biology", type: "pyq", size: "8.4 MB", downloads: 2800, date: "2024-01-09" },
+            { id: 8, title: "Periodic Table Trends", subject: "chemistry", type: "formula", size: "1.2 MB", downloads: 1800, date: "2024-01-08" }
+        ];
+
+        const posts = [
+            {
+                id: 1,
+                author: "Priya Sharma",
+                avatar: "P",
+                color: "purple",
+                content: "Just solved 50 questions of Rotational Mechanics! The key is to visualize the axis properly. Anyone struggling with this topic? 🎯",
+                likes: 45,
+                comments: 12,
+                time: "2 hours ago",
+                tags: ["Physics", "JEE"]
+            },
+            {
+                id: 2,
+                author: "Rahul Verma",
+                avatar: "R",
+                color: "cyan",
+                content: "Can someone explain why SN2 reactions prefer polar aprotic solvents? I'm confused about the solvation effects. 🤔",
+                likes: 23,
+                comments: 8,
+                time: "4 hours ago",
+                tags: ["Chemistry", "Doubt"]
+            },
+            {
+                id: 3,
+                author: "Ananya Patel",
+                avatar: "A",
+                color: "pink",
+                content: "Sharing my notes on Human Physiology - uploaded in the materials section. Hope it helps! 📚✨",
+                likes: 89,
+                comments: 15,
+                time: "6 hours ago",
+                tags: ["Biology", "NEET", "Notes"]
+            }
+        ];
+
+        let currentFilter = 'all';
+        let uploadedFiles = [];
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            renderCourses('all');
+            renderMaterials();
+            renderPosts();
+        });
+
+        // Navigation
+        function showSection(sectionId) {
+            // Hide all sections
+            document.querySelectorAll('.section').forEach(section => {
+                section.classList.add('hidden');
+                section.classList.remove('animate-fade-in');
+            });
+            
+            // Show target section
+            const target = document.getElementById(sectionId);
+            target.classList.remove('hidden');
+            target.classList.add('animate-fade-in');
+            
+            // Update nav active state
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('text-accent-cyan');
+                link.classList.add('text-gray-300');
+            });
+            
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Search Functionality
+        function toggleSearch() {
+            const overlay = document.getElementById('searchOverlay');
+            overlay.classList.toggle('hidden');
+            if (!overlay.classList.contains('hidden')) {
+                document.getElementById('globalSearch').focus();
+            }
+        }
+
+        function handleSearch(e) {
+            const query = e.target.value.toLowerCase();
+            const resultsDiv = document.getElementById('searchResults');
+            
+            if (query.length < 2) {
+                resultsDiv.innerHTML = '';
+                return;
+            }
+
+            const courseResults = courses.filter(c => c.title.toLowerCase().includes(query));
+            const materialResults = materials.filter(m => m.title.toLowerCase().includes(query));
+            
+            let html = '';
+            
+            if (courseResults.length > 0) {
+                html += '<div class="text-sm text-gray-400 mb-2">Courses</div>';
+                courseResults.forEach(course => {
+                    html += `
+                        <div class="glass-panel rounded-xl p-4 hover:bg-white/5 cursor-pointer transition-colors flex items-center space-x-4" onclick="showSection('courses'); toggleSearch();">
+                            <div class="w-12 h-12 rounded-lg bg-accent-${course.color}/20 flex items-center justify-center">
+                                <i class="fas fa-graduation-cap text-accent-${course.color}"></i>
+                            </div>
+                            <div class="flex-1">
+                                <div class="font-semibold text-white">${course.title}</div>
+                                <div class="text-sm text-gray-400">${course.instructor}</div>
+                            </div>
+                        </div>
+                    `;
+                });
+            }
+            
+            if (materialResults.length > 0) {
+                html += '<div class="text-sm text-gray-400 mb-2 mt-4">Materials</div>';
+                materialResults.forEach(mat => {
+                    html += `
+                        <div class="glass-panel rounded-xl p-4 hover:bg-white/5 cursor-pointer transition-colors flex items-center space-x-4" onclick="showSection('materials'); toggleSearch();">
+                            <div class="w-12 h-12 rounded-lg bg-dark-700 flex items-center justify-center">
+                                <i class="fas fa-file-alt text-accent-cyan"></i>
+                            </div>
+                            <div class="flex-1">
+                                <div class="font-semibold text-white">${mat.title}</div>
+                                <div class="text-sm text-gray-400">${mat.subject} • ${mat.type}</div>
+                            </div>
+                        </div>
+                    `;
+                });
+            }
+            
+            resultsDiv.innerHTML = html || '<div class="text-center text-gray-500 py-8">No results found</div>';
+        }
+
+        // Courses
+        function renderCourses(filter) {
+            currentFilter = filter;
+            const grid = document.getElementById('courseGrid');
+            const filtered = filter === 'all' ? courses : courses.filter(c => c.category.includes(filter));
+            
+            grid.innerHTML = filtered.map(course => `
+                <div class="glass-panel rounded-2xl overflow-hidden card-hover group cursor-pointer">
+                    <div class="h-48 bg-gradient-to-br from-accent-${course.color}/20 to-accent-${course.color}/5 flex items-center justify-center relative overflow-hidden">
+                        <i class="fas fa-${getSubjectIcon(course.subject)} text-6xl text-accent-${course.color}/30 group-hover:scale-110 transition-transform duration-500"></i>
+                        <div class="absolute top-4 right-4 bg-black/50 backdrop-blur-md rounded-lg px-3 py-1 text-xs font-semibold text-white">
+                            ${course.duration}
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="text-xs font-semibold text-accent-${course.color} uppercase tracking-wider">${course.subject}</span>
+                            <div class="flex items-center space-x-1 text-yellow-400 text-sm">
+                                <i class="fas fa-star"></i>
+                                <span class="text-white font-semibold">${course.rating}</span>
+                            </div>
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-2 group-hover:text-accent-${course.color} transition-colors">${course.title}</h3>
+                        <p class="text-gray-400 text-sm mb-4">by ${course.instructor}</p>
+                        
+                        <div class="flex items-center justify-between text-sm text-gray-500 mb-4">
+                            <span><i class="fas fa-users mr-2"></i>${course.students.toLocaleString()}</span>
+                            <span><i class="fas fa-book mr-2"></i>${course.duration}</span>
+                        </div>
+                        
+                        ${course.progress > 0 ? `
+                            <div class="mb-4">
+                                <div class="flex justify-between text-xs mb-1">
+                                    <span class="text-gray-400">Progress</span>
+                                    <span class="text-accent-${course.color}">${course.progress}%</span>
+                                </div>
+                                <div class="h-2 bg-dark-800 rounded-full overflow-hidden">
+                                    <div class="h-full bg-accent-${course.color} rounded-full" style="width: ${course.progress}%"></div>
+                                </div>
+                            </div>
+                        ` : ''}
+                        
+                        <button class="w-full py-3 rounded-xl bg-white/5 hover:bg-accent-${course.color}/20 border border-white/10 hover:border-accent-${course.color}/50 text-white font-semibold transition-all flex items-center justify-center space-x-2 group-hover:neon-glow">
+                            <span>${course.progress > 0 ? 'Continue' : 'Start Learning'}</span>
+                            <i class="fas fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+            
+            // Update filter buttons
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.remove('active', 'bg-accent-cyan/20', 'text-accent-cyan', 'border-accent-cyan');
+                btn.classList.add('border-white/20');
+                if (btn.textContent.toLowerCase().includes(filter) || (filter === 'all' && btn.textContent.includes('All'))) {
+                    btn.classList.add('active', 'bg-accent-cyan/20', 'text-accent-cyan', 'border-accent-cyan');
+                    btn.classList.remove('border-white/20');
+                }
+            });
+        }
+
+        function filterCourses(category) {
+            renderCourses(category);
+        }
+
+        function getSubjectIcon(subject) {
+            const icons = {
+                physics: 'atom',
+                chemistry: 'flask',
+                maths: 'calculator',
+                biology: 'dna',
+                all: 'layer-group'
+            };
+            return icons[subject] || 'book';
+        }
+
+        // Materials
+        function renderMaterials() {
+            const typeFilter = document.getElementById('materialFilter').value;
+            const subjFilter = document.getElementById('subjectFilter').value;
+            const grid = document.getElementById('materialsGrid');
+            
+            let filtered = materials;
+            if (typeFilter !== 'all') filtered = filtered.filter(m => m.type === typeFilter);
+            if (subjFilter !== 'all') filtered = filtered.filter(m => m.subject === subjFilter);
+            
+            const typeColors = {
+                notes: 'cyan',
+                dpp: 'purple',
+                pyq: 'pink',
+                formula: 'green',
+                mock: 'orange'
+            };
+            
+            grid.innerHTML = filtered.map(mat => `
+                <div class="glass-panel rounded-2xl p-6 card-hover group cursor-pointer">
+                    <div class="flex items-start justify-between mb-4">
+                        <div class="w-12 h-12 rounded-xl bg-accent-${typeColors[mat.type]}/20 flex items-center justify-center">
+                            <i class="fas fa-${getFileIcon(mat.type)} text-accent-${typeColors[mat.type]} text-xl"></i>
+                        </div>
+                        <span class="text-xs font-semibold px-3 py-1 rounded-full bg-white/5 text-gray-400 border border-white/10">${mat.type.toUpperCase()}</span>
+                    </div>
+                    <h3 class="font-bold text-lg text-white mb-2 line-clamp-2 group-hover:text-accent-${typeColors[mat.type]} transition-colors">${mat.title}</h3>
+                    <div class="flex items-center space-x-4 text-sm text-gray-500 mb-4">
+                        <span class="capitalize">${mat.subject}</span>
+                        <span>•</span>
+                        <span>${mat.size}</span>
+                    </div>
+                    <div class="flex items-center justify-between pt-4 border-t border-white/10">
+                        <div class="flex items-center space-x-2 text-sm text-gray-400">
+                            <i class="fas fa-download"></i>
+                            <span>${mat.downloads}</span>
+                        </div>
+                        <button class="px-4 py-2 rounded-lg bg-accent-${typeColors[mat.type]}/10 text-accent-${typeColors[mat.type]} hover:bg-accent-${typeColors[mat.type]}/20 transition-colors font-medium text-sm">
+                            Download
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function filterMaterials() {
+            renderMaterials();
+        }
+
+        function getFileIcon(type) {
+            const icons = {
+                notes: 'file-alt',
+                dpp: 'tasks',
+                pyq: 'history',
+                formula: 'superscript',
+                mock: 'clipboard-check'
+            };
+            return icons[type] || 'file';
+        }
+
+        // Upload
+        function handleDragOver(e) {
+            e.preventDefault();
+            e.currentTarget.classList.add('dragover');
+        }
+
+        function handleDragLeave(e) {
+            e.currentTarget.classList.remove('dragover');
+        }
+
+        function handleDrop(e) {
+            e.preventDefault();
+            e.currentTarget.classList.remove('dragover');
+            const files = Array.from(e.dataTransfer.files);
+            addFiles(files);
+        }
+
+        function handleFileSelect(e) {
+            const files = Array.from(e.target.files);
+            addFiles(files);
+        }
+
+        function addFiles(files) {
+            uploadedFiles = [...uploadedFiles, ...files];
+            updateFileList();
+        }
+
+        function updateFileList() {
+            const list = document.getElementById('fileList');
+            if (uploadedFiles.length === 0) {
+                list.classList.add('hidden');
+                return;
+            }
+            
+            list.classList.remove('hidden');
+            list.innerHTML = uploadedFiles.map((file, index) => `
+                <div class="flex items-center justify-between p-3 rounded-lg bg-dark-800 border border-white/10">
+                    <div class="flex items-center space-x-3">
+                        <i class="fas fa-file text-accent-cyan"></i>
+                        <span class="text-sm text-gray-300">${file.name}</span>
+                        <span class="text-xs text-gray-500">(${(file.size / 1024 / 1024).toFixed(2)} MB)</span>
+                    </div>
+                    <button onclick="removeFile(${index})" class="text-red-400 hover:text-red-300 transition-colors">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            `).join('');
+        }
+
+        function removeFile(index) {
+            uploadedFiles.splice(index, 1);
+            updateFileList();
+        }
+
+        function handleUpload(e) {
+            e.preventDefault();
+            
+            if (uploadedFiles.length === 0) {
+                showToast('Please select at least one file', 'error');
+                return;
+            }
+            
+            // Simulate upload
+            const btn = e.target.querySelector('button[type="submit"]');
+            const originalContent = btn.innerHTML;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i><span>Uploading...</span>';
+            btn.disabled = true;
+            
+            setTimeout(() => {
+                showToast('Material uploaded successfully! +20 points');
+                e.target.reset();
+                uploadedFiles = [];
+                updateFileList();
+                btn.innerHTML = originalContent;
+                btn.disabled = false;
+                
+                // Add to materials (simulated)
+                const newMaterial = {
+                    id: materials.length + 1,
+                    title: document.getElementById('uploadTitle').value,
+                    subject: document.getElementById('uploadSubject').value,
+                    type: document.getElementById('uploadType').value,
+                    size: "2.5 MB",
+                    downloads: 0,
+                    date: new Date().toISOString().split('T')[0]
+                };
+                materials.unshift(newMaterial);
+                renderMaterials();
+            }, 2000);
+        }
+
+        // Community
+        function renderPosts() {
+            const feed = document.getElementById('postsFeed');
+            feed.innerHTML = posts.map(post => `
+                <div class="glass-panel rounded-2xl p-6 animate-fade-in">
+                    <div class="flex items-start space-x-4">
+                        <div class="w-12 h-12 rounded-full bg-accent-${post.color} flex items-center justify-center text-white font-bold text-lg flex-shrink-0">
+                            ${post.avatar}
+                        </div>
+                        <div class="flex-1">
+                            <div class="flex items-center justify-between mb-2">
+                                <div>
+                                    <span class="font-bold text-white">${post.author}</span>
+                                    <span class="text-gray-500 text-sm ml-2">${post.time}</span>
+                                </div>
+                                <button class="text-gray-400 hover:text-white">
+                                    <i class="fas fa-ellipsis-h"></i>
+                                </button>
+                            </div>
+                            <p class="text-gray-300 mb-4 leading-relaxed">${post.content}</p>
+                            <div class="flex flex-wrap gap-2 mb-4">
+                                ${post.tags.map(tag => `<span class="text-xs px-3 py-1 rounded-full bg-accent-cyan/10 text-accent-cyan border border-accent-cyan/20">#${tag}</span>`).join('')}
+                            </div>
+                            <div class="flex items-center space-x-6 text-gray-400">
+                                <button class="flex items-center space-x-2 hover:text-accent-pink transition-colors group" onclick="likePost(this)">
+                                    <i class="fas fa-heart group-hover:scale-110 transition-transform"></i>
+                                    <span>${post.likes}</span>
+                                </button>
+                                <button class="flex items-center space-x-2 hover:text-accent-cyan transition-colors">
+                                    <i class="fas fa-comment"></i>
+                                    <span>${post.comments}</span>
+                                </button>
+                                <button class="flex items-center space-x-2 hover:text-accent-green transition-colors">
+                                    <i class="fas fa-share"></i>
+                                    <span>Share</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function createPost() {
+            const content = document.getElementById('postContent').value;
+            if (!content.trim()) return;
+            
+            const newPost = {
+                id: posts.length + 1,
+                author: "You",
+                avatar: "Y",
+                color: "cyan",
+                content: content,
+                likes: 0,
+                comments: 0,
+                time: "Just now",
+                tags: ["New"]
+            };
+            
+            posts.unshift(newPost);
+            renderPosts();
+            document.getElementById('postContent').value = '';
+            showToast('Post created successfully!');
+        }
+
+        function likePost(btn) {
+            const icon = btn.querySelector('i');
+            const count = btn.querySelector('span');
+            
+            if (icon.classList.contains('text-accent-pink')) {
+                icon.classList.remove('text-accent-pink');
+                count.textContent = parseInt(count.textContent) - 1;
+            } else {
+                icon.classList.add('text-accent-pink');
+                icon.classList.add('animate-bounce');
+                setTimeout(() => icon.classList.remove('animate-bounce'), 1000);
+                count.textContent = parseInt(count.textContent) + 1;
+            }
+        }
+
+        // Toast
+        function showToast(message, type = 'success') {
+            const toast = document.getElementById('toast');
+            const msg = document.getElementById('toastMessage');
+            const icon = toast.querySelector('i');
+            
+            msg.textContent = message;
+            
+            if (type === 'error') {
+                icon.className = 'fas fa-exclamation-circle text-red-500 text-xl';
+                toast.querySelector('.glass-panel').classList.replace('border-accent-cyan', 'border-red-500');
+            } else {
+                icon.className = 'fas fa-check-circle text-accent-cyan text-xl';
+                toast.querySelector('.glass-panel').classList.remove('border-red-500');
+                toast.querySelector('.glass-panel').classList.add('border-accent-cyan');
+            }
+            
+            toast.classList.remove('translate-y-20', 'opacity-0');
+            
+            setTimeout(() => {
+                toast.classList.add('translate-y-20', 'opacity-0');
+            }, 3000);
+        }
+
+        // Close search on escape
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                document.getElementById('searchOverlay').classList.add('hidden');
+            }
+        });
+    </script>
+</body>
+                                                                                                   </html>
